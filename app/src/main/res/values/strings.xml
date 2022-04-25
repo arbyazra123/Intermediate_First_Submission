@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Curhatly</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="appwidget_text">Story Widget</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="failed_to_get_image">Gagal mendapatkan gambar!, silahkan coba lagi</string>
+    <string name="upload_success">Upload Berhasil</string>
+    <string name="upload_failed">\"Upload Gagal : \"</string>
+    <string name="package_name">com.kmm.intermediatefirstsubmission</string>
+    <string name="photo_empty_warning">Photo harus diisi!</string>
+    <string name="description_empty_warning">Description tidak boleh kosong</string>
+    <string name="file_failed_to_convert">File gagal di konversi</string>
+    <string name="failed_to_get_permissions">Gagal mendapatkan permission</string>
+    <string name="unknown_error">unknown error</string>
+    <string name="email_not_valid">Email tidak valid</string>
+    <string name="password_error_warning">Password minimal 6 karakter!</string>
+    <string name="password_hint">Password</string>
+    <string name="must_not_empty">\" tidak boleh kosong!\"</string>
+    <string name="choose_picture">Pilih gambar</string>
+    <string name="isoFormat">yyyy-MM-dd\'T\'HH:mm:ss.SSSX</string>
+    <string name="login_failed">\"Login gagal : \"</string>
+    <string name="login_sucess">Login berhasil!</string>
+    <string name="register_failed">\"Register gagal : \"</string>
+    <string name="register_success">Register berhasil!, silahkan daftar</string>
+    <string name="name_must_not_null">Nama tidak boleh kosong</string>
+    <string name="preview_of_uploaded_file">Preview of uploaded file</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="description">Description</string>
+    <string name="post">Post</string>
+    <string name="display_image_of_user_s_story">Display image of User\'s story</string>
+    <string name="developer_name">Arby Azyumardi Azra</string>
+    <string name="login">Login</string>
+    <string name="register_account_persuade">Belum punya akun?, Daftar Sekarang!</string>
+    <string name="register_now">Daftar Sekarang!</string>
+    <string name="name_hint">Name</string>
+    <string name="register">Daftar</string>
+    <string name="already_have_acc">Saya sudah punya akun</string>
+    <string name="fab">Floating Action Button</string>
+    <string name="date_dummy">20 April, 14:32</string>
+    <string name="logout_txt">Logout</string>
+</resources>

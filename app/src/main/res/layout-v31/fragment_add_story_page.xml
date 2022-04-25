@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    tools:context=".ui.pages.landing.add_story.AddStoryPage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/storyImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_outline"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/empty_img"
+            android:transitionName="profile"
+            android:contentDescription="@string/preview_of_uploaded_file" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <com.kmm.intermediatefirstsubmission.ui.components.PrimaryButton
+                android:id="@+id/btn_camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="Camera"
+                android:textColor="@color/skin_color" />
+
+            <com.kmm.intermediatefirstsubmission.ui.components.PrimaryButton
+                android:id="@+id/btn_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="Gallery"
+                android:textColor="@color/skin_color" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:boxBackgroundMode="none"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+
+            <com.kmm.intermediatefirstsubmission.ui.components.PrimaryTextField
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:hint="Description"
+                android:maxLines="10"
+                android:minLines="6" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp">
+
+
+        <com.kmm.intermediatefirstsubmission.ui.components.PrimaryButton
+            android:id="@+id/btn_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="bottom"
+            android:text="Post"
+            android:textColor="@color/skin_color" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:elevation="2dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</FrameLayout>
