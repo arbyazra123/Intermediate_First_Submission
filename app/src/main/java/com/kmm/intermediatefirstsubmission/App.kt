@@ -10,6 +10,7 @@ import com.kmm.intermediatefirstsubmission.data.auth.viewmodel.AuthViewModel
 import com.kmm.intermediatefirstsubmission.data.auth.viewmodel.AuthViewModelImpl
 import com.kmm.intermediatefirstsubmission.data.auth.viewmodel.SessionViewModel
 import com.kmm.intermediatefirstsubmission.data.core.local_data.SessionPreference
+import com.kmm.intermediatefirstsubmission.data.database.StoryDatabase
 import com.kmm.intermediatefirstsubmission.data.network.ApiConfig
 import com.kmm.intermediatefirstsubmission.data.story.repository.StoryRemoteRepository
 import com.kmm.intermediatefirstsubmission.data.story.view_model.StoryViewModel
@@ -27,7 +28,7 @@ class App : Application() {
             AuthViewModelImpl(get())
         }
         viewModel<StoryViewModel> {
-            StoryViewModelImpl(get())
+            StoryViewModelImpl(get(), get())
         }
         viewModel {
             SessionViewModel(get())
@@ -40,6 +41,9 @@ class App : Application() {
     private val apiModule = module {
         single { ApiConfig.getService(get()) }
     }
+    private val dbModule = module {
+        single { StoryDatabase.getInstance(applicationContext) }
+    }
     private val preferenceModule = module {
 
         single { SessionPreference.getInstance(dataStore) }
@@ -50,7 +54,15 @@ class App : Application() {
         startKoin {
 //            androidLogger(Level.ERROR)
             androidContext(this@App)
-            modules(listOf(apiModule, repositoryModule, viewModelModule, preferenceModule))
+            modules(
+                listOf(
+                    dbModule,
+                    apiModule,
+                    repositoryModule,
+                    viewModelModule,
+                    preferenceModule
+                )
+            )
         }
     }
 }

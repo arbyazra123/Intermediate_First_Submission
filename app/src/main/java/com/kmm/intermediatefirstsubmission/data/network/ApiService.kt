@@ -26,7 +26,7 @@ interface ApiService {
     ): Call<BaseResponse>
 
     @GET("stories")
-    fun getStoriesWithPaging(
+    suspend fun getStoriesWithPaging(
         @Query("location") location: String?,
         @Query("page") page : Int?,
         @Query("size") size : Int?,

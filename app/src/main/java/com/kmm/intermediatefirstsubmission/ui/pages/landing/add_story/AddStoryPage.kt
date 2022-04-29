@@ -5,10 +5,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
-import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -123,9 +121,13 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
         if (mMap.isMyLocationEnabled) {
             mMap.setOnMyLocationClickListener {
                 myLocation = it
+                val latLng = LatLng(it.latitude, it.longitude)
                 mMap.addMarker(
-                    MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("My Location")
+                    MarkerOptions().position(latLng)
                 )
+                binding.tvLocation?.text = "Location (${it.latitude},${
+                    it.longitude
+                })"
             }
         }
     }
@@ -146,10 +148,15 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
         } else {
             mMap.isMyLocationEnabled = true
             fusedLocationClient.lastLocation.addOnSuccessListener {
-                myLocation = it
-                val latLng = LatLng(it.latitude, it.longitude)
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-                mMap.addMarker(MarkerOptions().position(latLng))
+                if (it != null) {
+                    myLocation = it
+                    val latLng = LatLng(it.latitude, it.longitude)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+                    mMap.addMarker(MarkerOptions().position(latLng))
+                    binding.tvLocation?.text = "Location (${it.latitude},${
+                        it.longitude
+                    })"
+                }
             }
         }
     }

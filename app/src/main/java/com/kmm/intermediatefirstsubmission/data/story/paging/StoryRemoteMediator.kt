@@ -50,7 +50,8 @@ class StoryRemoteMediator(
         try {
             val responseData = repository.getStoriesWithPaging("1", page, state.config.pageSize)
 
-            val endOfPaginationReached = responseData.listStory?.isEmpty() ?: true
+            val endOfPaginationReached = responseData.listStory.isEmpty()
+            println("endOfPaginationReached $endOfPaginationReached")
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -59,13 +60,11 @@ class StoryRemoteMediator(
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = responseData.listStory?.map {
+                val keys = responseData.listStory.map {
                     RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
-                keys?.let {
-                    database.remoteKeysDao().insertAll(keys)
-                    database.storyDao().insertAllStory(responseData.listStory)
-                }
+                database.remoteKeysDao().insertAll(keys)
+                database.storyDao().insertAllStory(responseData.listStory)
 
 
             }

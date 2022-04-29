@@ -9,7 +9,7 @@ class StoryRemoteRepository(private val apiService: ApiService) {
         location: String?,
     ) = apiService.getStories(location)
 
-    fun getStoriesWithPaging(
+    suspend fun getStoriesWithPaging(
         location: String?,
         page: Int?, size: Int?
     ) = apiService.getStoriesWithPaging(location, page, size)

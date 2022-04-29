@@ -25,6 +25,7 @@ class StoryViewModelImpl(
     storyRepository: StoryRemoteRepository,
 ) : StoryViewModel(database, storyRepository) {
 
+
     override fun getStories(location: String?) {
         storyViewEvent.postValue(StateHandler.Initial())
         storyViewEvent.postValue(StateHandler.Loading())
@@ -59,8 +60,9 @@ class StoryViewModelImpl(
     override fun getStoriesWithPaging(): LiveData<PagingData<ListStoryResponseItem>> {
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
+
             config = PagingConfig(
-                pageSize = 5
+                pageSize = 3
             ),
             remoteMediator = StoryRemoteMediator(database, storyRepository),
             pagingSourceFactory = {

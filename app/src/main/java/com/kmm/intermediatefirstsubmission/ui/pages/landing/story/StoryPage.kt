@@ -1,5 +1,6 @@
 package com.kmm.intermediatefirstsubmission.ui.pages.landing.story
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kmm.intermediatefirstsubmission.R
 import com.kmm.intermediatefirstsubmission.data.core.StateHandler
@@ -25,10 +27,11 @@ class StoryPage : Fragment(), IOnStoryItemClick {
     private lateinit var binding: FragmentStoryPageBinding
     private val storyViewModel by sharedViewModel<StoryViewModel>()
     private lateinit var storyListViewAdapter: StoryListViewAdapter
+    private lateinit var storyListViewPagingAdapter: StoryListViewPagingAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentStoryPageBinding.inflate(layoutInflater)
-        storyViewModel.getStories("1")
+
     }
 
     override fun onCreateView(
@@ -38,14 +41,15 @@ class StoryPage : Fragment(), IOnStoryItemClick {
 
 
         binding.rv.layoutManager = LinearLayoutManager(requireContext())
+        storyListViewPagingAdapter = StoryListViewPagingAdapter(this)
         binding.swipe.setOnRefreshListener {
-            storyViewModel.getStories("1")
+            getDataWithPaging(storyListViewPagingAdapter)
         }
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_storyPage_to_addStoryPage)
         }
-        val adapter = StoryListViewPagingAdapter(this)
-        getDataWithPaging(adapter)
+
+        getDataWithPaging(storyListViewPagingAdapter)
 //        getData()
         return binding.root
     }
@@ -83,6 +87,7 @@ class StoryPage : Fragment(), IOnStoryItemClick {
         }
     }
 
+
     private fun getDataWithPaging(adapter: StoryListViewPagingAdapter) {
         binding.rv.adapter =
                 adapter.withLoadStateFooter(LoadingStateAdapter(retry = { adapter.retry() }))
@@ -93,7 +98,7 @@ class StoryPage : Fragment(), IOnStoryItemClick {
 
     override fun onStop() {
         super.onStop()
-        storyViewModel.getStories("1")
+//        storyViewModel.getStories("1")
     }
 
 

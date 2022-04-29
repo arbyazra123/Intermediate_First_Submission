@@ -89,7 +89,10 @@ class MapStoryPage : Fragment(), OnMapReadyCallback {
                         }
                         if (bounds.isNotEmpty()) {
                             val bounds: LatLngBounds = boundsBuilder.build()
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
+                            mMap.setOnMapLoadedCallback {
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
+                            }
+
                         }
 
                     }
