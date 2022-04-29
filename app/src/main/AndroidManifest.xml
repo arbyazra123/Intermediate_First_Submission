@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kmm.intermediatefirstsubmission">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -31,10 +33,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IntermediateFirstSubmission">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC_CS3YH9x1CTXASqll2MkWHUofseivL8s" />
 
         <activity
-            android:configChanges="orientation|screenSize"
+            android:name=".activity.StoryMapActivity"
+            android:exported="false"
+            android:label="@string/title_activity_story_map" />
+        <activity
             android:name=".activity.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,7 +61,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

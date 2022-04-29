@@ -15,6 +15,10 @@ import com.kmm.intermediatefirstsubmission.data.story.model.ListStoryResponseIte
 import com.kmm.intermediatefirstsubmission.data.story.view_model.StoryViewModel
 import com.kmm.intermediatefirstsubmission.databinding.FragmentStoryPageBinding
 import com.kmm.intermediatefirstsubmission.databinding.StoryItemBinding
+import com.kmm.intermediatefirstsubmission.ui.adapter.IOnStoryItemClick
+import com.kmm.intermediatefirstsubmission.ui.adapter.LoadingStateAdapter
+import com.kmm.intermediatefirstsubmission.ui.adapter.StoryListViewAdapter
+import com.kmm.intermediatefirstsubmission.ui.adapter.StoryListViewPagingAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class StoryPage : Fragment(), IOnStoryItemClick {
@@ -24,8 +28,9 @@ class StoryPage : Fragment(), IOnStoryItemClick {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentStoryPageBinding.inflate(layoutInflater)
-        storyViewModel.getStories("0")
+        storyViewModel.getStories("1")
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,11 +39,18 @@ class StoryPage : Fragment(), IOnStoryItemClick {
 
         binding.rv.layoutManager = LinearLayoutManager(requireContext())
         binding.swipe.setOnRefreshListener {
-            storyViewModel.getStories("0")
+            storyViewModel.getStories("1")
         }
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_storyPage_to_addStoryPage)
         }
+        val adapter = StoryListViewPagingAdapter(this)
+        getDataWithPaging(adapter)
+//        getData()
+        return binding.root
+    }
+
+    private fun getData() {
         storyViewModel.storyViewState.observe(viewLifecycleOwner) {
 
             when (it) {
@@ -69,12 +81,19 @@ class StoryPage : Fragment(), IOnStoryItemClick {
                 }
             }
         }
-        return binding.root
+    }
+
+    private fun getDataWithPaging(adapter: StoryListViewPagingAdapter) {
+        binding.rv.adapter =
+                adapter.withLoadStateFooter(LoadingStateAdapter(retry = { adapter.retry() }))
+        storyViewModel.getStoriesWithPaging().observe(viewLifecycleOwner) {
+            adapter.submitData(lifecycle, it)
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        storyViewModel.getStories("0")
+        storyViewModel.getStories("1")
     }
 
 

@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_storyPage_to_detailStoryPage"
             app:destination="@id/detailStoryPage"/>
+        <action
+            android:id="@+id/action_storyPage_to_mapStoryPage"
+            app:destination="@id/mapStoryPage" />
     </fragment>
     <fragment
         android:id="@+id/addStoryPage"
@@ -86,4 +89,9 @@
         android:name="com.kmm.intermediatefirstsubmission.ui.pages.landing.story.DetailStoryPage"
         android:label="fragment_detail_story_page"
         tools:layout="@layout/fragment_detail_story_page" />
+    <fragment
+        android:id="@+id/mapStoryPage"
+        android:name="com.kmm.intermediatefirstsubmission.ui.pages.map_story.MapStoryPage"
+        android:label="fragment_map_story_page"
+        tools:layout="@layout/fragment_map_story_page" />
 </navigation>

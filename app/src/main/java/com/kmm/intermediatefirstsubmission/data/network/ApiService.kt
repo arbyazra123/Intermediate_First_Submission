@@ -21,12 +21,23 @@ interface ApiService {
     ): Call<BaseResponse>
 
     @GET("stories")
-    fun getStories(@Query("location") location: String?): Call<BaseResponse>
+    fun getStories(
+        @Query("location") location: String?,
+    ): Call<BaseResponse>
+
+    @GET("stories")
+    fun getStoriesWithPaging(
+        @Query("location") location: String?,
+        @Query("page") page : Int?,
+        @Query("size") size : Int?,
+    ): BaseResponse
 
     @Multipart
     @POST("stories")
     fun postStory(
         @Part("description") description: RequestBody,
-        @Part file : MultipartBody.Part,
+        @Part("lat") lat: RequestBody?,
+        @Part("lon") lon: RequestBody?,
+        @Part file: MultipartBody.Part,
     ): Call<BaseResponse>
 }
