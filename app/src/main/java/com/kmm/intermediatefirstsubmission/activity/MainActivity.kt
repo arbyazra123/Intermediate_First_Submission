@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import com.kmm.intermediatefirstsubmission.R
 import com.kmm.intermediatefirstsubmission.data.auth.viewmodel.SessionViewModel
+import com.kmm.intermediatefirstsubmission.ui.pages.landing.add_story.AddStoryPage
 import com.kmm.intermediatefirstsubmission.utility.CommonFunction
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,6 +64,14 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
                 findNavController(R.id.fragmentContainerView).popBackStack()
+            } else {
+                findNavController(R.id.fragmentContainerView).currentDestination?.let {
+                    if (it.id == R.id.addStoryPage) {
+                        val navHostFragment =
+                                supportFragmentManager.findFragmentById(R.id.addStoryPage);
+                        (navHostFragment?.childFragmentManager?.fragments?.get(0) as AddStoryPage?)?.getMyLocation()
+                    }
+                }
             }
         }
     }
@@ -100,5 +109,6 @@ class MainActivity : AppCompatActivity() {
         menu.findItem(R.id.menu_logout).isVisible = true
         return super.onCreateOptionsMenu(menu)
     }
+
 
 }

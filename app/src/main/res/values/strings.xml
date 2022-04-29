@@ -42,5 +42,7 @@
     <string name="date_dummy">20 April, 14:32</string>
     <string name="logout_txt">Logout</string>
     <string name="title_activity_story_map">StoryMapActivity</string>
-    <string name="location_hint">Location (No Location)</string>
+    <string name="location_hint">Location (%1$s %2$s)</string>
+    <string name="location_hint_empty">Location (No Location)</string>
+    <string name="refresh_location">Refresh Location</string>
 </resources>

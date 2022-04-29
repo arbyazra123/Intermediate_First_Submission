@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
@@ -73,23 +73,43 @@
                     android:minLines="6" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tv_location"
-                android:textSize="16sp"
+            <LinearLayout
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:paddingBottom="10dp"
-                android:text="@string/location_hint"
-                android:textColor="@color/gray" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textAlignment="textStart"
+                    android:id="@+id/tv_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/location_hint_empty"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:textAlignment="textEnd"
+                    android:id="@+id/tv_refresh_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:text="@string/refresh_location"
+                    android:textColor="@color/light_blue_600"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/add_map_frame"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="100dp"
-                android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_marginBottom="100dp">
 
                 <fragment
                     android:id="@+id/map_add_story"

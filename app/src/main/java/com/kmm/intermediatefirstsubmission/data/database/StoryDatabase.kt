@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.dicoding.myunlimitedquotes.database.RemoteKeysDao
 import com.kmm.intermediatefirstsubmission.data.core.model.RemoteKeys
 import com.kmm.intermediatefirstsubmission.data.story.model.ListStoryResponseItem
 

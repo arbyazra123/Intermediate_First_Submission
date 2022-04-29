@@ -46,7 +46,6 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
     private var myLocation: Location? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,6 +58,9 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
                 childFragmentManager.findFragmentById(R.id.map_add_story) as SupportMapFragment?
 
         mapManager?.getMapAsync(this)
+        binding.tvRefreshLocation?.setOnClickListener {
+            getMyLocation()
+        }
         askPermission()
         binding.btnCamera.setOnClickListener {
             startTakePhoto()
@@ -117,6 +119,7 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
             binding.addMapFrame?.clipToOutline = true
             setAllGesturesEnabled(true)
             isZoomControlsEnabled = true
+            isMyLocationButtonEnabled = true
         }
         if (mMap.isMyLocationEnabled) {
             mMap.setOnMyLocationClickListener {
@@ -125,9 +128,10 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
                 mMap.addMarker(
                     MarkerOptions().position(latLng)
                 )
-                binding.tvLocation?.text = "Location (${it.latitude},${
-                    it.longitude
-                })"
+                binding.tvLocation?.text = getString(
+                    R.string.location_hint,
+                    it.latitude.toString(), it.longitude.toString()
+                )
             }
         }
     }
@@ -142,7 +146,7 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
             }
 
     @SuppressLint("MissingPermission")
-    private fun getMyLocation() {
+    fun getMyLocation() {
         if (!CommonFunction.allPermissionsGranted(requireContext())) {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
@@ -153,9 +157,10 @@ class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
                     val latLng = LatLng(it.latitude, it.longitude)
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
                     mMap.addMarker(MarkerOptions().position(latLng))
-                    binding.tvLocation?.text = "Location (${it.latitude},${
-                        it.longitude
-                    })"
+                    binding.tvLocation?.text = getString(
+                        R.string.location_hint,
+                        it.latitude.toString(), it.longitude.toString()
+                    )
                 }
             }
         }

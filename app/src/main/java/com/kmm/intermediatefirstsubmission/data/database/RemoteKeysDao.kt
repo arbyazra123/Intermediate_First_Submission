@@ -1,4 +1,4 @@
-package com.dicoding.myunlimitedquotes.database
+package com.kmm.intermediatefirstsubmission.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert

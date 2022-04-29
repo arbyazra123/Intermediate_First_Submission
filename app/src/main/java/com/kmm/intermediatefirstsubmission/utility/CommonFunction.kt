@@ -11,7 +11,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.material.snackbar.Snackbar
 import com.kmm.intermediatefirstsubmission.R
-import com.kmm.intermediatefirstsubmission.ui.pages.map_story.MapStoryPage
 
 class CommonFunction {
     companion object {

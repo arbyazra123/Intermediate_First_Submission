@@ -1,28 +1,17 @@
 package com.kmm.intermediatefirstsubmission.ui.pages.map_story
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.content.res.Resources
 import androidx.fragment.app.Fragment
-
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.snackbar.Snackbar
 import com.kmm.intermediatefirstsubmission.R
 import com.kmm.intermediatefirstsubmission.data.core.StateHandler
 import com.kmm.intermediatefirstsubmission.data.story.view_model.StoryViewModel
@@ -108,11 +97,6 @@ class MapStoryPage : Fragment(), OnMapReadyCallback {
                 }
             }
         }
-    }
-
-
-    companion object {
-        private val TAG = MapStoryPage::class.java.simpleName
     }
 
 
