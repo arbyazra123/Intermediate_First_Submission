@@ -1,9 +1,12 @@
 package com.kmm.intermediatefirstsubmission.ui.pages.landing.add_story
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,6 +19,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.kmm.intermediatefirstsubmission.R
 import com.kmm.intermediatefirstsubmission.data.core.StateHandler
 import com.kmm.intermediatefirstsubmission.data.story.view_model.StoryViewModel
@@ -27,10 +38,14 @@ import com.kmm.intermediatefirstsubmission.utility.uriToFile
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.io.File
 
-class AddStoryPage : Fragment(), View.OnClickListener {
+class AddStoryPage : Fragment(), View.OnClickListener, OnMapReadyCallback {
     private lateinit var binding: FragmentAddStoryPageBinding
     private var photo: File? = null
     private val storyViewModel by sharedViewModel<StoryViewModel>()
+    private lateinit var mMap: GoogleMap
+    private var myLocation: Location? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +53,12 @@ class AddStoryPage : Fragment(), View.OnClickListener {
     ): View {
         activity?.closeOptionsMenu()
         binding = FragmentAddStoryPageBinding.inflate(layoutInflater)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        val mapManager =
+                childFragmentManager.findFragmentById(R.id.map_add_story) as SupportMapFragment?
+
+        mapManager?.getMapAsync(this)
         askPermission()
         binding.btnCamera.setOnClickListener {
             startTakePhoto()
@@ -62,7 +83,7 @@ class AddStoryPage : Fragment(), View.OnClickListener {
                         requireContext(),
                         getString(R.string.upload_success),
                     )
-                    storyViewModel.getStories("0")
+                    storyViewModel.getStories("1")
                     findNavController().popBackStack()
                     storyViewModel.resetPostStory()
 
@@ -86,6 +107,60 @@ class AddStoryPage : Fragment(), View.OnClickListener {
         return binding.root
     }
 
+    override fun onMapReady(map: GoogleMap) {
+        mMap = map
+        CommonFunction.setMapStyle(mMap, requireContext())
+        getMyLocation()
+        mMap.uiSettings.apply {
+            binding.addMapFrame?.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.rounded_outline)
+            binding.addMapFrame?.clipToOutline = true
+            setAllGesturesEnabled(true)
+            isZoomControlsEnabled = true
+        }
+        if (mMap.isMyLocationEnabled) {
+            mMap.setOnMyLocationClickListener {
+                myLocation = it
+                val latLng = LatLng(it.latitude, it.longitude)
+                mMap.addMarker(
+                    MarkerOptions().position(latLng)
+                )
+                binding.tvLocation?.text = "Location (${it.latitude},${
+                    it.longitude
+                })"
+            }
+        }
+    }
+
+    private val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    getMyLocation()
+                }
+            }
+
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation() {
+        if (!CommonFunction.allPermissionsGranted(requireContext())) {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            mMap.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                if (it != null) {
+                    myLocation = it
+                    val latLng = LatLng(it.latitude, it.longitude)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+                    mMap.addMarker(MarkerOptions().position(latLng))
+                    binding.tvLocation?.text = "Location (${it.latitude},${
+                        it.longitude
+                    })"
+                }
+            }
+        }
+    }
+
     private fun askPermission() {
         if (!CommonFunction.allPermissionsGranted(requireContext())) {
             ActivityCompat.requestPermissions(
@@ -94,9 +169,7 @@ class AddStoryPage : Fragment(), View.OnClickListener {
                 CommonFunction.REQUEST_CODE_PERMISSIONS
             )
         }
-
     }
-
 
     private fun showLoading() {
         binding.progressBar.visibility = View.VISIBLE
@@ -107,7 +180,6 @@ class AddStoryPage : Fragment(), View.OnClickListener {
         binding.progressBar.visibility = View.GONE
         binding.btnPost.isEnabled = true
     }
-
 
     private lateinit var photoURI: Uri
     private lateinit var currentPhotoPath: String
@@ -198,7 +270,11 @@ class AddStoryPage : Fragment(), View.OnClickListener {
                         return
                     }
 
-                    storyViewModel.postStory(binding.etDescription.text.toString(), reduced)
+                    storyViewModel.postStory(
+                        binding.etDescription.text.toString(),
+                        reduced,
+                        myLocation
+                    )
                 }
             } catch (e: Exception) {
                 CommonFunction.showSnackBar(
@@ -212,5 +288,6 @@ class AddStoryPage : Fragment(), View.OnClickListener {
         }
 
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.kmm.intermediatefirstsubmission.ui.pages.landing.story
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kmm.intermediatefirstsubmission.R
 import com.kmm.intermediatefirstsubmission.data.core.StateHandler
@@ -15,17 +17,23 @@ import com.kmm.intermediatefirstsubmission.data.story.model.ListStoryResponseIte
 import com.kmm.intermediatefirstsubmission.data.story.view_model.StoryViewModel
 import com.kmm.intermediatefirstsubmission.databinding.FragmentStoryPageBinding
 import com.kmm.intermediatefirstsubmission.databinding.StoryItemBinding
+import com.kmm.intermediatefirstsubmission.ui.adapter.IOnStoryItemClick
+import com.kmm.intermediatefirstsubmission.ui.adapter.LoadingStateAdapter
+import com.kmm.intermediatefirstsubmission.ui.adapter.StoryListViewAdapter
+import com.kmm.intermediatefirstsubmission.ui.adapter.StoryListViewPagingAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class StoryPage : Fragment(), IOnStoryItemClick {
     private lateinit var binding: FragmentStoryPageBinding
     private val storyViewModel by sharedViewModel<StoryViewModel>()
     private lateinit var storyListViewAdapter: StoryListViewAdapter
+    private lateinit var storyListViewPagingAdapter: StoryListViewPagingAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentStoryPageBinding.inflate(layoutInflater)
-        storyViewModel.getStories("0")
+
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,12 +41,20 @@ class StoryPage : Fragment(), IOnStoryItemClick {
 
 
         binding.rv.layoutManager = LinearLayoutManager(requireContext())
+        storyListViewPagingAdapter = StoryListViewPagingAdapter(this)
         binding.swipe.setOnRefreshListener {
-            storyViewModel.getStories("0")
+            getDataWithPaging(storyListViewPagingAdapter)
         }
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_storyPage_to_addStoryPage)
         }
+
+        getDataWithPaging(storyListViewPagingAdapter)
+//        getData()
+        return binding.root
+    }
+
+    private fun getData() {
         storyViewModel.storyViewState.observe(viewLifecycleOwner) {
 
             when (it) {
@@ -69,12 +85,20 @@ class StoryPage : Fragment(), IOnStoryItemClick {
                 }
             }
         }
-        return binding.root
+    }
+
+
+    private fun getDataWithPaging(adapter: StoryListViewPagingAdapter) {
+        binding.rv.adapter =
+                adapter.withLoadStateFooter(LoadingStateAdapter(retry = { adapter.retry() }))
+        storyViewModel.getStoriesWithPaging().observe(viewLifecycleOwner) {
+            adapter.submitData(lifecycle, it)
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        storyViewModel.getStories("0")
+//        storyViewModel.getStories("1")
     }
 
 

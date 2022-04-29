@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "409102928210",
+    "project_id": "curhatly",
+    "storage_bucket": "curhatly.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409102928210:android:6e270cdcb3c0475bac928b",
+        "android_client_info": {
+          "package_name": "com.kmm.intermediatefirstsubmission"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "409102928210-qpk1671kk4km1js5dd8itvik414hojl5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kmm.intermediatefirstsubmission",
+            "certificate_hash": "3236f57da2c102ad1957860ead9318ecb3d9bcb8"
+          }
+        },
+        {
+          "client_id": "409102928210-8g9r7h7lgi7obrg3s9q45e4fjir2qvvf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpU2Vk97EDNweLa_mSxt-CI9dxIcPS06M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "409102928210-8g9r7h7lgi7obrg3s9q45e4fjir2qvvf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

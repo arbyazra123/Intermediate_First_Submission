@@ -5,6 +5,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -36,6 +37,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
 
     buildFeatures {
@@ -46,26 +48,29 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
     def nav_version_ktx = "2.5.0-beta01"
     def coroutines_ver = "1.6.0"
     def okhttp_log_ver = "4.9.0"
     def retrofit_ver = "2.9.0"
     def glide_ver = "4.13.1"
 
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    implementation 'androidx.room:room-paging:2.5.0-alpha01'
+
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation "androidx.datastore:datastore-preferences:1.0.0"
-
 
     implementation "com.github.bumptech.glide:glide:$glide_ver"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_ver"
 
-
     implementation "com.squareup.retrofit2:retrofit:$retrofit_ver"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_ver"
 
-
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_log_ver"
-
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_ver"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_ver"
@@ -81,6 +86,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version_ktx"
 
     //Room
+    implementation 'androidx.room:room-ktx:2.5.0-alpha01'
     implementation 'androidx.room:room-runtime:2.4.2'
     kapt 'androidx.room:room-compiler:2.4.2'
 

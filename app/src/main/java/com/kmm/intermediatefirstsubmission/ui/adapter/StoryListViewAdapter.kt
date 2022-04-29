@@ -1,4 +1,4 @@
-package com.kmm.intermediatefirstsubmission.ui.pages.landing.story
+package com.kmm.intermediatefirstsubmission.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

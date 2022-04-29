@@ -1,4 +1,4 @@
-package com.kmm.intermediatefirstsubmission.ui.pages.landing.story
+package com.kmm.intermediatefirstsubmission.ui.adapter
 
 import com.kmm.intermediatefirstsubmission.data.story.model.ListStoryResponseItem
 import com.kmm.intermediatefirstsubmission.databinding.StoryItemBinding

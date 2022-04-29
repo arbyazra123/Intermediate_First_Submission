@@ -16,5 +16,5 @@ data class BaseResponse(
     val loginResult: LoginResult? = null,
 
     @field:SerializedName("listStory")
-    val listStory: List<ListStoryResponseItem>? = null
+    val listStory: List<ListStoryResponseItem>
 )

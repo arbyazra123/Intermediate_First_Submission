@@ -13,12 +13,16 @@
         <entry key="app/src/main/res/drawable/rounded_outline.xml" value="0.1105" />
         <entry key="app/src/main/res/drawable/widget_item.xml" value="0.205" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11770833333333333" />
+        <entry key="app/src/main/res/layout/activity_story_map.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_add_story_page.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_detail_story_page.xml" value="0.14906832298136646" />
         <entry key="app/src/main/res/layout/fragment_login_page.xml" value="0.2625482625482625" />
+        <entry key="app/src/main/res/layout/fragment_map_story.xml" value="0.10572916666666667" />
         <entry key="app/src/main/res/layout/fragment_register_page.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/fragment_story_location.xml" value="0.10572916666666667" />
         <entry key="app/src/main/res/layout/fragment_story_page.xml" value="0.4395833333333333" />
+        <entry key="app/src/main/res/layout/item_loading.xml" value="0.4999542236328125" />
         <entry key="app/src/main/res/layout/stories_widget.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/story_item.xml" value="0.30810607910156257" />
         <entry key="app/src/main/res/layout/widget_item.xml" value="0.19739583333333333" />

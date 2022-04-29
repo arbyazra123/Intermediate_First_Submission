@@ -70,12 +70,25 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_logout -> {
+
                 findNavController(R.id.fragmentContainerView).currentDestination?.let {
-                    if (it.id == R.id.addStoryPage) {
-                        findNavController(R.id.fragmentContainerView).popBackStack()
+                    when (it.id) {
+                        R.id.addStoryPage -> {
+                            item.isVisible = false
+                            findNavController(R.id.fragmentContainerView).popBackStack()
+                        }
+                        R.id.mapStoryPage -> {
+                            findNavController(R.id.fragmentContainerView).popBackStack()
+                        }
+                        else -> {}
                     }
                 }
                 sessionViewModel.removeToken()
+            }
+            R.id.show_as_map -> {
+                item.isVisible = false
+                findNavController(R.id.fragmentContainerView).navigate(R.id.action_storyPage_to_mapStoryPage)
+
             }
         }
         return super.onOptionsItemSelected(item)
@@ -83,16 +96,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        menu.findItem(R.id.show_as_map).isVisible = true
+        menu.findItem(R.id.menu_logout).isVisible = true
         return super.onCreateOptionsMenu(menu)
     }
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        findNavController(R.id.fragmentContainerView).currentDestination?.let {
-            return it.id != R.id.addStoryPage
-        }
-        return true
-
-    }
-
 
 }

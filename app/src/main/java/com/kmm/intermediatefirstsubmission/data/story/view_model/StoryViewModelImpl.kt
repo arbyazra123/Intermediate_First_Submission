@@ -1,7 +1,13 @@
 package com.kmm.intermediatefirstsubmission.data.story.view_model
 
+import android.location.Location
+import androidx.lifecycle.LiveData
+import androidx.paging.*
+import com.kmm.intermediatefirstsubmission.data.story.paging.StoryRemoteMediator
 import com.kmm.intermediatefirstsubmission.data.core.StateHandler
 import com.kmm.intermediatefirstsubmission.data.core.model.BaseResponse
+import com.kmm.intermediatefirstsubmission.data.database.StoryDatabase
+import com.kmm.intermediatefirstsubmission.data.story.model.ListStoryResponseItem
 import com.kmm.intermediatefirstsubmission.data.story.repository.StoryRemoteRepository
 import com.kmm.intermediatefirstsubmission.utility.ErrorParser
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,8 +21,10 @@ import retrofit2.Response
 import java.io.File
 
 class StoryViewModelImpl(
+    database: StoryDatabase,
     storyRepository: StoryRemoteRepository,
-) : StoryViewModel(storyRepository) {
+) : StoryViewModel(database, storyRepository) {
+
 
     override fun getStories(location: String?) {
         storyViewEvent.postValue(StateHandler.Initial())
@@ -48,14 +56,39 @@ class StoryViewModelImpl(
         })
     }
 
-    override fun postStory(description: String, photo: File) {
+
+    override fun getStoriesWithPaging(): LiveData<PagingData<ListStoryResponseItem>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+
+            config = PagingConfig(
+                pageSize = 3
+            ),
+            remoteMediator = StoryRemoteMediator(database, storyRepository),
+            pagingSourceFactory = {
+                database.storyDao().getAllStory()
+            }
+        ).liveData
+    }
+
+    override fun postStory(description: String, photo: File, location: Location?) {
         storyPostEvent.postValue(StateHandler.Loading())
         val descriptionRequestBody = description.toRequestBody("text/plain".toMediaType())
+
+        val latRequestBody =
+                location?.latitude?.toString()?.toRequestBody("text/plain".toMediaType())
+        val lonRequestBody =
+                location?.longitude?.toString()?.toRequestBody("text/plain".toMediaType())
         val requestImageFile = photo.asRequestBody("image/jpeg".toMediaTypeOrNull())
         val imageMultipart: MultipartBody.Part =
                 MultipartBody.Part.createFormData("photo", photo.name, requestImageFile)
 
-        storyRepository.postStory(description = descriptionRequestBody, file = imageMultipart)
+        storyRepository.postStory(
+            description = descriptionRequestBody,
+            file = imageMultipart,
+            lat = latRequestBody,
+            lon = lonRequestBody,
+        )
             .enqueue(object : Callback<BaseResponse> {
                 override fun onResponse(
                     call: Call<BaseResponse>,
